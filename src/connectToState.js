@@ -15,6 +15,7 @@ export const InjectedProps = {
   requiresName: PropTypes.bool,
   requiresCVC: PropTypes.bool,
   requiresPostalCode: PropTypes.bool,
+  requiresDOBOrBusinessRegNumber: PropTypes.bool,
 };
 
 export default function connectToState(CreditCardInput) {
@@ -27,6 +28,8 @@ export default function connectToState(CreditCardInput) {
       requiresCVC: PropTypes.bool,
       requiresPostalCode: PropTypes.bool,
       validatePostalCode: PropTypes.func,
+      requiresDOBOrBusinessRegNumber: PropTypes.bool,
+      validateDOBOrBusinessRegNumber: PropTypes.func,
     };
 
     static defaultProps = {
@@ -91,6 +94,7 @@ export default function connectToState(CreditCardInput) {
         requiresCVC ? "cvc" : null,
         requiresName ? "name" : null,
         requiresPostalCode ? "postalCode" : null,
+        requiresDOBOrBusinessRegNumber ? "dobOrBusinessRegNumber" : null,
       ]);
     };
 
