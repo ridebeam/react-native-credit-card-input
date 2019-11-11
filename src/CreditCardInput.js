@@ -40,6 +40,7 @@ const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WI
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
 const POSTAL_CODE_INPUT_WIDTH = 120;
+const DOB_BUSINESS_REG_NUMBER_INPUT_WIDTH = 300;
 
 /* eslint react/prop-types: 0 */ // https://github.com/yannickcr/eslint-plugin-react/issues/106
 export default class CreditCardInput extends Component {
@@ -84,6 +85,7 @@ export default class CreditCardInput extends Component {
       expiry: "MM/YY",
       cvc: "CVC",
       postalCode: "34567",
+      dobOrBusinessRegNumber: "YYMMDD or business registration number"
     },
     inputContainerStyle: {
       borderBottomWidth: 1,
@@ -147,7 +149,7 @@ export default class CreditCardInput extends Component {
     const {
       cardImageFront, cardImageBack, inputContainerStyle,
       values: { number, expiry, cvc, name, type }, focused,
-      allowScroll, requiresName, requiresCVC, requiresPostalCode,
+      allowScroll, requiresName, requiresCVC, requiresPostalCode, requiresDOBOrBusinessRegNumber,
       cardScale, cardFontFamily, cardBrandIcons,cardExpiryLabel,
       cardPlaceholders
     } = this.props;
@@ -193,6 +195,10 @@ export default class CreditCardInput extends Component {
             <CCInput {...this._inputProps("postalCode")}
               keyboardType="numeric"
               containerStyle={[s.inputContainer, inputContainerStyle, { width: POSTAL_CODE_INPUT_WIDTH }]} /> }
+          { requiresDOBOrBusinessRegNumber &&
+            <CCInput {...this._inputProps("dobOrBusinessRegNumber")}
+              keyboardType="numeric"
+              containerStyle={[s.inputContainer, inputContainerStyle, { width: DOB_BUSINESS_REG_NUMBER_INPUT_WIDTH }]} /> }
         </ScrollView>
       </View>
     );

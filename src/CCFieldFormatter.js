@@ -29,6 +29,7 @@ export default class CCFieldFormatter {
       cvc: this._formatCVC(values.cvc, card),
       name: removeLeadingSpaces(values.name),
       postalCode: removeNonNumber(values.postalCode),
+      dobOrBusinessRegNumber: removeNonNumber(values.dobOrBusinessRegNumber),
     }, this._displayedFields);
   };
 

@@ -15,6 +15,7 @@ export const InjectedProps = {
   requiresName: PropTypes.bool,
   requiresCVC: PropTypes.bool,
   requiresPostalCode: PropTypes.bool,
+  requiresDOBOrBusinessRegNumber: PropTypes.bool,
 };
 
 export default function connectToState(CreditCardInput) {
@@ -27,6 +28,8 @@ export default function connectToState(CreditCardInput) {
       requiresCVC: PropTypes.bool,
       requiresPostalCode: PropTypes.bool,
       validatePostalCode: PropTypes.func,
+      requiresDOBOrBusinessRegNumber: PropTypes.bool,
+      validateDOBOrBusinessRegNumber: PropTypes.func,
     };
 
     static defaultProps = {
@@ -41,6 +44,18 @@ export default function connectToState(CreditCardInput) {
                postalCode.length > 6 ? "invalid" :
                "incomplete";
       },
+      validateDOBOrBusinessRegNumber: (dobOrBusinessRegNumber = "") => {
+        if ( dobOrBusinessRegNumber.match(/^\d{6}$/) ) {
+          return "valid";
+        }
+        if ( dobOrBusinessRegNumber.length < 10 ) {
+          return "incomplete";
+        }
+        if ( dobOrBusinessRegNumber.match(/^\d{10}$/) ) {
+          return "valid";
+        }
+        return "invalid";
+      }
     };
 
     constructor() {
@@ -60,7 +75,7 @@ export default function connectToState(CreditCardInput) {
       const newValues = { ...this.state.values, ...values };
       const displayedFields = this._displayedFields();
       const formattedValues = (new CCFieldFormatter(displayedFields)).formatValues(newValues);
-      const validation = (new CCFieldValidator(displayedFields, this.props.validatePostalCode)).validateValues(formattedValues);
+      const validation = (new CCFieldValidator(displayedFields, this.props.validatePostalCode, this.props.validateDOBOrBusinessRegNumber)).validateValues(formattedValues);
       const newState = { values: formattedValues, ...validation };
 
       this.setState(newState);
@@ -72,13 +87,14 @@ export default function connectToState(CreditCardInput) {
     };
 
     _displayedFields = () => {
-      const { requiresName, requiresCVC, requiresPostalCode } = this.props;
+      const { requiresName, requiresCVC, requiresPostalCode, requiresDOBOrBusinessRegNumber } = this.props;
       return compact([
         "number",
         "expiry",
         requiresCVC ? "cvc" : null,
         requiresName ? "name" : null,
         requiresPostalCode ? "postalCode" : null,
+        requiresDOBOrBusinessRegNumber ? "dobOrBusinessRegNumber" : null,
       ]);
     };
 
