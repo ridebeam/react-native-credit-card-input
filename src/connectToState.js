@@ -41,6 +41,18 @@ export default function connectToState(CreditCardInput) {
                postalCode.length > 6 ? "invalid" :
                "incomplete";
       },
+      validateDOBOrBusinessRegNumber: (dobOrBusinessRegNumber = "") => {
+        if ( dobOrBusinessRegNumber.match(/^\d{6}$/) ) {
+          return "valid";
+        }
+        if ( dobOrBusinessRegNumber.length < 10 ) {
+          return "incomplete";
+        }
+        if ( dobOrBusinessRegNumber.match(/^\d{10}$/) ) {
+          return "valid";
+        }
+        return "invalid";
+      }
     };
 
     constructor() {
@@ -60,7 +72,7 @@ export default function connectToState(CreditCardInput) {
       const newValues = { ...this.state.values, ...values };
       const displayedFields = this._displayedFields();
       const formattedValues = (new CCFieldFormatter(displayedFields)).formatValues(newValues);
-      const validation = (new CCFieldValidator(displayedFields, this.props.validatePostalCode)).validateValues(formattedValues);
+      const validation = (new CCFieldValidator(displayedFields, this.props.validatePostalCode, this.props.validateDOBOrBusinessRegNumber)).validateValues(formattedValues);
       const newState = { values: formattedValues, ...validation };
 
       this.setState(newState);
