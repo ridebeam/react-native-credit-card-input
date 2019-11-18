@@ -68,6 +68,8 @@ export default class CreditCardInput extends Component {
     allowScroll: PropTypes.bool,
 
     additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes)),
+
+    individualFieldInputsProps: PropTypes.object,
   };
 
   static defaultProps = {
@@ -98,6 +100,7 @@ export default class CreditCardInput extends Component {
     placeholderColor: "gray",
     allowScroll: false,
     additionalInputsProps: {},
+    individualFieldInputsProps: {},
   };
 
   componentDidMount = () => this._focus(this.props.focused);
@@ -125,7 +128,7 @@ export default class CreditCardInput extends Component {
       inputStyle, labelStyle, validColor, invalidColor, placeholderColor,
       placeholders, labels, values, status,
       onFocus, onChange, onBecomeEmpty, onBecomeValid,
-      additionalInputsProps,
+      additionalInputsProps, individualFieldInputsProps
     } = this.props;
 
     return {
@@ -142,6 +145,8 @@ export default class CreditCardInput extends Component {
       onFocus, onChange, onBecomeEmpty, onBecomeValid,
 
       additionalInputProps: additionalInputsProps[field],
+
+      ...(individualFieldInputsProps[field] || {}),
     };
   };
 
